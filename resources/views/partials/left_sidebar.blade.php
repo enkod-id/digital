@@ -13,6 +13,12 @@
                 </li>
 
                 <li>
+                    <a href="{{route('product.index')}}" class="waves-effect">
+                        <i class="dripicons-meter"></i><span class="badge badge-info badge-pill float-right">9+</span> <span> Product</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-mail"></i><span> Email <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
                         <li><a href="email-inbox.html">Inbox</a></li>
