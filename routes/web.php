@@ -30,12 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('/dashboard/product', [ProductController::class, 'index'])->name('product.index');
-    Route::get('/dashboard/product/create', [ProductController::class, 'create'])->name('product.create');
-    Route::post('/dashboard/product/store', [ProductController::class, 'store'])->name('product.store');
-    Route::get('/dashboard/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
-    Route::post('/dashboard/product/{id}/update', [ProductController::class, 'update'])->name('product.update');
-    Route::delete('/dashboard/product/{id}destroy', [ProductController::class, 'destroy'])->name('product.destroy');
+    Route::get('/dashboard/product', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/dashboard/product/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/dashboard/product/store', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/dashboard/product/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::post('/dashboard/product/{id}/update', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/dashboard/product/{id}destroy', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/dashboard/product/{id}/show', [ProductController::class, 'show'])->name('products.show');
 
     Route::get('/dashboard/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/dashboard/category/create', [CategoryController::class, 'create'])->name('category.create');

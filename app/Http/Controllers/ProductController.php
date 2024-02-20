@@ -3,55 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     // Menampilkan semua data produk
     public function index()
     {
+        $categories = Category::all();
         $products = Product::all();
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'categories'));
     }
 
     // Menampilkan form untuk membuat produk baru
     public function create()
-    {
-        return view('products.create');
-    }
+{
+    $categories = Category::all(); // Mengambil semua kategori dari database
+    return view('products.index', compact('categories'));
+}
 
-    // Menyimpan produk baru ke dalam database
-    public function store(Request $request)
-    {
-        // Validasi data input
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'category_id' => 'required|exists:categories,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
+public function store(Request $request)
+{
+    // Validasi data input
+    $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'stock' => 'required|integer',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'category_id' => 'required|exists:categories,id',
+    ]);
 
-        // Upload gambar
-        $imageName = time().'.'.$request->image->extension();  
-        $request->image->move(public_path('images'), $imageName);
+    // Upload gambar
+    $imageName = time().'.'.$request->image->extension();  
+    $request->image->move(public_path('images'), $imageName);
 
-        // Simpan produk baru ke dalam database
-        Product::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'status' => $request->status ?? 'available',
-            'image' => $imageName,
-            'category_id' => $request->category_id,
-            'user_id' => $request->user_id,
-        ]);
+    // Simpan produk baru ke dalam database
+    Product::create([
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'stock' => $request->stock,
+        'status' => $request->status ?? 'available',
+        'image' => $imageName,
+        'category_id' => $request->category_id,
+        'user_id' => Auth::id(), // Menggunakan ID pengguna yang sudah login
+    ]);
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
-    }
+    return redirect()->route('products.index')->with('success', 'Product created successfully.');
+}
 
     // Menampilkan detail produk
     public function show(Product $product)
@@ -101,9 +103,17 @@ class ProductController extends Controller
     }
 
     // Menghapus produk dari database
-    public function destroy(Product $product)
-    {
+    public function destroy($id)
+{
+    $product = Product::find($id);
+
+    if ($product) {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('products.index')
+                         ->with('success', 'Product deleted successfully');
     }
+
+    return redirect()->route('products.index')
+                     ->with('error', 'Product not found');
+}
 }

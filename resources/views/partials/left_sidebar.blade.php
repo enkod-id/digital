@@ -13,7 +13,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('product.index')}}" class="waves-effect">
+                    <a href="{{route('products.index')}}" class="waves-effect">
                         <i class="dripicons-meter"></i><span class="badge badge-info badge-pill float-right">9+</span> <span> Product</span>
                     </a>
                 </li>

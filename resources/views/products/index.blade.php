@@ -36,7 +36,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-body">
                                         <div class="form-group">
@@ -69,15 +69,13 @@
                                         <div class="form-group">
                                             <label for="category_id">Category</label>
                                             <select class="form-control" id="category_id" name="category_id" required>
-                                                <!-- Isi dengan opsi kategori dari database -->
+                                                <!-- Tampilkan opsi kategori dari database -->
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="user_id">User</label>
-                                            <select class="form-control" id="user_id" name="user_id" required>
-                                                <!-- Isi dengan opsi pengguna dari database -->
-                                            </select>
-                                        </div>
+                                       
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -86,58 +84,57 @@
                                 </form>
                             </div>
                          
-                        </div>
+                            </div>
                         <!-- /.modal-content -->
-                    </div>
+                        </div>
                     <!-- /.modal-dialog -->
-                </div>
+                    </div>
                 <!-- /.modal -->
                 </div>
             </div>
         </div>
-        <!-- end page-title -->
-
-        <!-- start top-Contant -->
-        
-        <!-- end top-Contant -->
-
-        <!-- end row -->
+      
        
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="mt-0 header-title">Default Datatable</h4>
-                        <p class="sub-title">DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.
-                        </p>
-
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Stock</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
-                                </tr>
-                               
-                               
                                 
-                              
-                              
+                                @foreach($products as $product)
+                                <tr>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ optional($product->category)->name }}</td> <!-- Menggunakan optional() untuk menghindari kesalahan jika kategori null -->
+                                    <td>{{ number_format($product->price, 0, ',', '.') }}</td>
+                                    <td>{{ $product->status }}</td>
+                                   <td>{{ $product->stock }}</td>
+                                    
+                                   <td>
+                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary" style="display: inline-block;">Detail</a>
+
+                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning" style="display: inline-block;">Edit</a>
+
+                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                                </tr>
+                            @endforeach
                                
                             </tbody>
                         </table>
