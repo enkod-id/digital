@@ -12,8 +12,9 @@ class ProductController extends Controller
     // Menampilkan semua data produk
     public function index()
     {
+        $user_id = Auth::id();
         $categories = Category::all();
-        $products = Product::all();
+        $products = Product::where('user_id', $user_id)->get();
         return view('products.index', compact('products', 'categories'));
     }
 
@@ -68,7 +69,7 @@ public function store(Request $request)
     }
 
     // Memperbarui produk dalam database
-    public function update(Request $request, Product $product)
+    public function update(Request $request,$id)
     {
         // Validasi data input
         $request->validate([

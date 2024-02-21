@@ -1,5 +1,4 @@
 <div class=" text-left">
-                    
     <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#myModal">Tambah Data</button>
 </div>
 
@@ -53,12 +52,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="form-group">
-                            <label for="user_id">User</label>
-                            <select class="form-control" id="user_id" name="user_id" required>
-                                <!-- Isi dengan opsi pengguna dari database -->
-                            </select>
-                        </div> --}}
+                       
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
