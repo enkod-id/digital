@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/dashboard/category/{id}/update', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/dashboard/category/{id}destroy', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+    Route::get('/dashboard/pos', [PosController::class, 'index'])->name('pos.index');
 });
 
 require __DIR__.'/auth.php';

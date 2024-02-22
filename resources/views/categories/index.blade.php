@@ -10,7 +10,7 @@
                     <div class="page-title-box">
                         <h4 class="page-title">Dashboard</h4>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active">Product</li>
+                            <li class="breadcrumb-item active">Category</li>
                         </ol>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 mb-3">
-                @include('modals.product_create')
+               
             </div>
         </div>
       
@@ -34,30 +34,26 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Status</th>
-                                    <th>Stock</th>
+                                    <th>Description</th>
+                                   
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 
-                                @foreach($products as $product)
+                                @foreach($categories as $category)
                                 <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ optional($product->category)->name }}</td> <!-- Menggunakan optional() untuk menghindari kesalahan jika kategori null -->
-                                    <td>{{ number_format($product->price, 0, ',', '.') }}</td>
-                                    <td>{{ $product->status }}</td>
-                                   <td>{{ $product->stock }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $category->description }}</td>
+                                   
                                     
                                    <td>
-                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary" style="display: inline-block;">Detail</a>
+                                    
 
-                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning" style="display: inline-block;">Edit</a>
+                                    <a href="{{ route('category.edit', $category->id) }}" class="btn btn-warning" style="display: inline-block;">Edit</a>
 
-                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                                    <form action="{{ route('category.destroy', $category->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Delete</button>

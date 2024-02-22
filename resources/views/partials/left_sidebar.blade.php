@@ -7,23 +7,23 @@
             <ul class="metismenu" id="side-menu">
                 <li class="menu-title">Menu</li>
                 <li>
-                    <a href="index.html" class="waves-effect">
+                    <a href="" class="waves-effect">
                         <i class="dripicons-meter"></i><span class="badge badge-info badge-pill float-right">9+</span> <span> Dashboard </span>
                     </a>
                 </li>
-
                 <li>
-                    <a href="{{route('products.index')}}" class="waves-effect">
-                        <i class="dripicons-meter"></i><span class="badge badge-info badge-pill float-right">9+</span> <span> Product</span>
+                    <a href="{{ route('pos.index')}}" class="waves-effect">
+                        <i class="dripicons-meter"></i><span class="badge badge-info badge-pill float-right">9+</span> <span> POS</span>
                     </a>
                 </li>
+               
 
                 <li>
-                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-mail"></i><span> Email <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                    <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-mail"></i><span> Manage Product <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                     <ul class="submenu">
-                        <li><a href="email-inbox.html">Inbox</a></li>
-                        <li><a href="email-read.html">Email Read</a></li>
-                        <li><a href="email-compose.html">Email Compose</a></li>
+                        <li><a href="{{route('category.index')}}">Category</a></li>
+                        <li><a href="">Add on</a></li>
+                        <li><a href="{{route('products.index')}}">Product</a></li>
                     </ul>
                 </li>
 

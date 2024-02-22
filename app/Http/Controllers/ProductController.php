@@ -19,7 +19,7 @@ class ProductController extends Controller
     }
 
     // Menampilkan form untuk membuat produk baru
-    public function create()
+public function create()
 {
     $categories = Category::all(); // Mengambil semua kategori dari database
     return view('products.index', compact('categories'));
@@ -63,45 +63,55 @@ public function store(Request $request)
     }
 
     // Menampilkan form untuk mengedit produk
-    public function edit(Product $product)
-    {
-        return view('products.edit', compact('product'));
+    public function edit($id)
+{
+    $product = Product::find($id);
+    $categories = Category::all();
+
+    if ($product) {
+        return view('products.edit', compact('product', 'categories'));
     }
+
+    return redirect()->route('products.index')
+                     ->with('error', 'Product not found');
+}
+
 
     // Memperbarui produk dalam database
-    public function update(Request $request,$id)
-    {
-        // Validasi data input
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'category_id' => 'required|exists:categories,id',
-            'user_id' => 'required|exists:users,id',
-        ]);
+    public function update(Request $request, $id)
+{
+    // Validasi data input
+    $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'stock' => 'required|integer',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'category_id' => 'required|exists:categories,id',
+    ]);
 
-        // Jika ada file gambar yang diunggah, upload dan perbarui nama file
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('images'), $imageName);
-            $product->image = $imageName;
-        }
+    // Dapatkan produk berdasarkan ID
+    $product = Product::findOrFail($id);
 
-        // Perbarui data produk dalam database
-        $product->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'status' => $request->status ?? 'available',
-            'category_id' => $request->category_id,
-            'user_id' => $request->user_id,
-        ]);
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+    // Jika ada file gambar yang diunggah, upload dan perbarui nama file
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();  
+        $request->image->move(public_path('images'), $imageName);
+        $product->image = $imageName;
     }
+
+    // Perbarui data produk dalam database
+    $product->update([
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'stock' => $request->stock,
+        'status' => $request->status ?? 'available',
+        'category_id' => $request->category_id,
+    ]);
+
+    return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+}
 
     // Menghapus produk dari database
     public function destroy($id)
