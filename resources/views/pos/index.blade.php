@@ -44,7 +44,7 @@
                
             </div>    
 
-            <div class="col-4">
+            <div class="col-4 border">
 
             </div>
             <!-- end col -->
@@ -55,5 +55,49 @@
     <!-- container-fluid -->
 
 </div>
+<script>
+    // Fungsi untuk mendapatkan data produk dari server
+    function fetchData() {
+        fetch('/get-products') // Ganti dengan URL endpoint yang sesuai
+            .then(response => response.json())
+            .then(data => {
+                // Setiap produk dalam data
+                data.forEach(product => {
+                    // Buat elemen untuk menampilkan produk
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product');
+                    productElement.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <a href="#" class="btn btn-primary waves-effect waves-light add-to-cart">Add to Cart</a>
+                    `;
+                    
+                    // Tambahkan event listener untuk tombol "Add to Cart"
+                    const addToCartButton = productElement.querySelector('.add-to-cart');
+                    addToCartButton.addEventListener('click', () => {
+                        addToCart(product);
+                    });
 
+                    // Tambahkan produk ke dalam kolom produk
+                    document.getElementById('product-column').appendChild(productElement);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Fungsi untuk menambahkan produk ke dalam keranjang belanja
+    function addToCart(product) {
+        // Buat elemen baru untuk produk yang ditambahkan ke keranjang
+        const cartItem = document.createElement('div');
+        cartItem.innerHTML = `${product.name} - $${product.price}`;
+
+        // Tambahkan produk ke dalam kolom keranjang belanja
+        document.getElementById('cart-column').appendChild(cartItem);
+    }
+
+    // Panggil fungsi fetchData saat halaman dimuat
+    window.onload = function() {
+        fetchData();
+    };
+</script>
 @stop
